@@ -7,6 +7,20 @@ NO_TITLE_ERROR = "Window titled '{}' not found."
 RESOLUTION2K = (200, 1300)
 RESOLUTION1K = (100, 650)
 
+
+def auto_click_button(conf_level: float, pic_name: str) -> None:
+    while True:
+        try:
+            x, y = pyautogui.locateCenterOnScreen(pic_name, confidence=conf_level)
+            if x is not None and y is not None:
+                pyautogui.moveTo(x, y, duration=1)
+                pyautogui.click()
+                print(f"Clicked on {pic_name} successfully.")
+                break
+        except pyautogui.ImageNotFoundException:
+            print(f"{pic_name} could not be located. Retrying in 2 seconds...")
+            time.sleep(2)
+
 def auto_click_ready() -> None:
     """
     Continuously clicks at the bottom left corner of the screen at specified intervals.
@@ -17,9 +31,7 @@ def auto_click_ready() -> None:
     Returns:
     - None
     """
-    x, y = pyautogui.locateCenterOnScreen("ready.png", confidence= 0.9)
-    pyautogui.moveTo(x, y, duration = 1)
-    pyautogui.click()
+    auto_click_button(0.9, "ready.png")
 
 def find_and_open_from_taskbar(window_title: str) -> None:
     """
@@ -60,7 +72,11 @@ def main() -> None:
         return
     time.sleep(2)
     while True:
+        auto_click_button(0.6, "start.png")
         auto_click_ready()
+        print("ALLDONE")
+        time.sleep(300)
+        
 
 if __name__ == "__main__":
     main()  # Execute the main function if this script is run as the main program.
