@@ -31,13 +31,13 @@ def auto_click_button(conf_level: float, pic_name: str, max_retires: int, move_s
                 pyautogui.moveTo(x, y, duration = move_speed)
                 pyautogui.click()
                 print(f"Clicked on {pic_name} successfully.")
-                break
+                return True
         except pyautogui.ImageNotFoundException:
             count = count + 1
             print(f"Button in {pic_name} could not be located. Retry {max_retires - count} times...")
-            time.sleep(1)
             if count >= max_retires :
-                break
+                return False
+            time.sleep(1)
 
 def get_resolution() -> int:
     """
@@ -48,7 +48,7 @@ def get_resolution() -> int:
 
     """
     try:
-        resolution = pyautogui.prompt(f"Enter Resolution: {RESOLUTION_1080}/{RESOLUTION_1440}", title = "Resolution")
+        resolution = pyautogui.prompt(f"输入分辨率, 1k为1080, 2k为1440: {RESOLUTION_1080}或{RESOLUTION_1440}", title = "Resolution")
         resolution = int(resolution)
         if resolution not in (RESOLUTION_1080, RESOLUTION_1440):
             return None
@@ -142,7 +142,7 @@ def main() -> None:
     
     # get user input
 
-    user_input = pyautogui.prompt("Enter legends and times, e.g., 'baolei 3 waji 10':", title="Choose Legends")
+    user_input = pyautogui.prompt("输入英雄空格次数, 例如, 'baolei 3 waji 10',也可以不输入", title="Choose Legends")
     legend_names = parse_legends(user_input)
 
 
@@ -155,12 +155,13 @@ def main() -> None:
     # start phase
     if auto_click_button(0.6, f"./{resolution}/start.png", 1, 0.5):
         # solo play
-        auto_click_button(0.8, f"./{resolution}/fillTeam.png", 5, 0.5)
+        auto_click_button(0.8, f"./{resolution}/fillTeam.png", 10, 0.25)
     else:
         # solo play
-        auto_click_button(0.8, f"./{resolution}/fillTeam.png", 1, 0.5)
+        auto_click_button(0.8, f"./{resolution}/fillTeam.png", 1, 0.25)
 
     while True:
+        auto_click_button(0.8, f"./{resolution}/fillTeam.png", 1, 0.25)
         print(legend_names)
         if legend_names is not None:
             # legend
@@ -198,4 +199,4 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()  # Execute the main function if this script is run as the main program.
+    main()
