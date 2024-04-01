@@ -4,11 +4,24 @@ import time
 
 PROGRAM_TITLE = "Apex Legends"
 NO_TITLE_ERROR = "Window titled '{}' not found."
-RESOLUTION2K = (200, 1300)
-RESOLUTION1K = (100, 650)
+START_STATUS = True
 
 
 def auto_click_button(conf_level: float, pic_name: str) -> None:
+    """
+    It continuously click the provided pic_name with a conf_level.
+    break after click
+    if pic not found loop again
+    
+    Arguments:
+    conf_level(float) : confidence level of how the actually button will look like the provided picture
+    pic_name(str): name of the button screenshot
+
+    Returns:
+    None
+
+    """
+    count = 0
     while True:
         try:
             x, y = pyautogui.locateCenterOnScreen(pic_name, confidence=conf_level)
@@ -19,7 +32,10 @@ def auto_click_button(conf_level: float, pic_name: str) -> None:
                 break
         except pyautogui.ImageNotFoundException:
             print(f"{pic_name} could not be located. Retrying in 2 seconds...")
-            time.sleep(2)
+            count = count + 1
+            time.sleep(1)
+            if count > 2 :
+                break
 
 def auto_click_ready() -> None:
     """
@@ -71,8 +87,8 @@ def main() -> None:
     if status == False:
         return
     time.sleep(2)
+    auto_click_button(0.6, "start.png")
     while True:
-        auto_click_button(0.6, "start.png")
         auto_click_ready()
         print("ALLDONE")
         time.sleep(300)
