@@ -78,7 +78,7 @@ def main() -> None:
     if status == False:
         return
     time.sleep(2)
-    auto_click_button(0.6, "start.png", 1)
+    auto_click_button(0.6, "start.png", 2)
     while True:
         auto_click_ready()
         print("ALLDONE")
