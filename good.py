@@ -91,6 +91,19 @@ def ejection(pic_name: str, conf_level: float):
         except pyautogui.ImageNotFoundException:
             time.sleep(0.25)
 
+def choose_legend(legend_name: str, conf_level: float) -> int:
+    while True:
+        try:
+            x, y = pyautogui.locateCenterOnScreen(legend_name, confidence = conf_level)
+            if x is not None and y is not None:
+                pyautogui.moveTo(x, y)
+                pyautogui.middleClick()
+                pyautogui.hotkey("esc")
+                break
+        except pyautogui.ImageNotFoundException:
+            time.sleep(0.25)
+
+
 def main() -> None:
     """
     Main function that orchestrates the finding and opening of a window from the taskbar,
@@ -115,20 +128,28 @@ def main() -> None:
 
     # start phase
     if auto_click_button(0.6, f"./{resolution}/start.png", 1, 0.5):
+        # solo play
         auto_click_button(0.8, f"./{resolution}/fillTeam.png", 5, 0.5)
     else:
+        # solo play
         auto_click_button(0.8, f"./{resolution}/fillTeam.png", 1, 0.5)
+    # choose legend
+    auto_click_button(0.8, f"./{resolution}/legendTab.png", 1, 0.5)
+
+    # legend
+    choose_legend(f"./{resolution}/legends/baolei.png", 0.7)
+
     while True:
         # ready
         auto_click_button(0.9, f"./{resolution}/ready.png", 20, 0.5)
         # eject
         ejection(f"./{resolution}/eject.png", 0.6)
-        # game end
+        # game end back to main manu
         auto_click_button(0.9, f"./{resolution}/endBack.png", 2400, 0.25)
         auto_click_button(0.9, f"./{resolution}/endYes.png", 20, 0.25)
         auto_click_button(0.9, f"./{resolution}/endContinue.png", 30, 0.25)
         auto_click_button(0.9, f"./{resolution}/endContinue2.png", 20, 0.25)
-        
+
 
 if __name__ == "__main__":
     main()  # Execute the main function if this script is run as the main program.
