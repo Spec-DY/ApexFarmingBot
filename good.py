@@ -7,7 +7,7 @@ NO_TITLE_ERROR = "Window titled '{}' not found."
 START_STATUS = True
 
 
-def auto_click_button(conf_level: float, pic_name: str) -> None:
+def auto_click_button(conf_level: float, pic_name: str, max_retires: int) -> None:
     """
     It continuously click the provided pic_name with a conf_level.
     break after click
@@ -26,28 +26,19 @@ def auto_click_button(conf_level: float, pic_name: str) -> None:
         try:
             x, y = pyautogui.locateCenterOnScreen(pic_name, confidence=conf_level)
             if x is not None and y is not None:
+                time.sleep(1)
                 pyautogui.moveTo(x, y, duration=1)
                 pyautogui.click()
                 print(f"Clicked on {pic_name} successfully.")
                 break
         except pyautogui.ImageNotFoundException:
-            print(f"{pic_name} could not be located. Retrying in 2 seconds...")
             count = count + 1
-            time.sleep(1)
-            if count > 2 :
+            print(f"Button in {pic_name} could not be located. Retry {max_retires - count} times...")
+            if count >= max_retires :
                 break
 
 def auto_click_ready() -> None:
-    """
-    Continuously clicks at the bottom left corner of the screen at specified intervals.
-
-    Parameters:
-    - none
-
-    Returns:
-    - None
-    """
-    auto_click_button(0.9, "ready.png")
+    auto_click_button(0.9, "ready.png", 5)
 
 def find_and_open_from_taskbar(window_title: str) -> None:
     """
@@ -87,7 +78,7 @@ def main() -> None:
     if status == False:
         return
     time.sleep(2)
-    auto_click_button(0.6, "start.png")
+    auto_click_button(0.6, "start.png", 1)
     while True:
         auto_click_ready()
         print("ALLDONE")
