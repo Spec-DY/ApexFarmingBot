@@ -96,9 +96,10 @@ def choose_legend(legend_name: str, conf_level: float) -> int:
         try:
             x, y = pyautogui.locateCenterOnScreen(legend_name, confidence = conf_level)
             if x is not None and y is not None:
-                pyautogui.moveTo(x, y)
+                pyautogui.moveTo(x, y, duration= 0.25)
                 pyautogui.middleClick()
                 pyautogui.hotkey("esc")
+                print("corresponding legend clicked")
                 break
         except pyautogui.ImageNotFoundException:
             time.sleep(0.25)
@@ -179,10 +180,9 @@ def main() -> None:
                     # game end back to main manu
                     auto_click_button(0.9, f"./{resolution}/endBack.png", 2400, 0.25)
                     auto_click_button(0.9, f"./{resolution}/endYes.png", 20, 0.25)
-                    time.sleep(3)
+                    time.sleep(5)
                     pyautogui.hotkey("space")
                     auto_click_button(0.9, f"./{resolution}/endContinue.png", 30, 0.25)
-                    pyautogui.hotkey("space")
                     auto_click_button(0.9, f"./{resolution}/endContinue2.png", 5, 0.25)
 
                     # random rewards
@@ -201,10 +201,9 @@ def main() -> None:
             # game end back to main manu
             auto_click_button(0.9, f"./{resolution}/endBack.png", 2400, 0.25)
             auto_click_button(0.9, f"./{resolution}/endYes.png", 20, 0.25)
-            time.sleep(3)
+            time.sleep(5)
             pyautogui.hotkey("space")
             auto_click_button(0.9, f"./{resolution}/endContinue.png", 30, 0.25)
-            pyautogui.hotkey("space")
             auto_click_button(0.9, f"./{resolution}/endContinue2.png", 5, 0.25)
 
             # random rewards
