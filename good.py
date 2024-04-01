@@ -104,6 +104,26 @@ def choose_legend(legend_name: str, conf_level: float) -> int:
             time.sleep(0.25)
 
 
+def parse_legends(user_input: str) -> list:
+    if not user_input:
+        return []
+
+    parts = user_input.split()
+    legends_list = []
+
+    for i in range(0, len(parts), 2):
+        try:
+            name = parts[i]
+            times = int(parts[i + 1])
+            legends_list.append([name, times])
+        except (IndexError, ValueError):
+            print(f"Error parsing input: {user_input}")
+            return []
+    print(legends_list)
+    return legends_list
+
+
+
 def main() -> None:
     """
     Main function that orchestrates the finding and opening of a window from the taskbar,
@@ -120,6 +140,12 @@ def main() -> None:
     if resolution is None:
         return
     
+    # get user input
+
+    user_input = pyautogui.prompt("Enter legends and times, e.g., 'baolei 3 waji 10':", title="Choose Legends")
+    legend_names = parse_legends(user_input)
+
+
     # open window
     status = find_and_open_from_taskbar(PROGRAM_TITLE)  # Open program from task bar
     if status == False:
@@ -133,22 +159,42 @@ def main() -> None:
     else:
         # solo play
         auto_click_button(0.8, f"./{resolution}/fillTeam.png", 1, 0.5)
-    # choose legend
-    auto_click_button(0.8, f"./{resolution}/legendTab.png", 1, 0.5)
-
-    # legend
-    choose_legend(f"./{resolution}/legends/baolei.png", 0.7)
 
     while True:
-        # ready
-        auto_click_button(0.9, f"./{resolution}/ready.png", 20, 0.5)
-        # eject
-        ejection(f"./{resolution}/eject.png", 0.6)
-        # game end back to main manu
-        auto_click_button(0.9, f"./{resolution}/endBack.png", 2400, 0.25)
-        auto_click_button(0.9, f"./{resolution}/endYes.png", 20, 0.25)
-        auto_click_button(0.9, f"./{resolution}/endContinue.png", 30, 0.25)
-        auto_click_button(0.9, f"./{resolution}/endContinue2.png", 20, 0.25)
+        print(legend_names)
+        if legend_names is not None:
+            # legend
+            for legend, times in legend_names:
+                current_count = 0
+                while current_count < times:
+                    # choose legend
+                    auto_click_button(0.8, f"./{resolution}/legendTab.png", 20, 0.5)
+                    choose_legend(f"./{resolution}/legends/{legend}.png", 0.7)
+                    print(f"{legend} in {times} times")
+                    # ready
+                    auto_click_button(0.9, f"./{resolution}/ready.png", 20, 0.5)
+                    # eject
+                    ejection(f"./{resolution}/eject.png", 0.6)
+                    # game end back to main manu
+                    auto_click_button(0.9, f"./{resolution}/endBack.png", 2400, 0.25)
+                    auto_click_button(0.9, f"./{resolution}/endYes.png", 20, 0.25)
+                    auto_click_button(0.9, f"./{resolution}/endContinue.png", 30, 0.25)
+                    auto_click_button(0.9, f"./{resolution}/endContinue2.png", 20, 0.25)
+                    
+                    current_count += 1
+                    print(current_count < times)
+            legend_names = None
+        else:
+            # No Legends Chose Game Process
+            # ready
+            auto_click_button(0.9, f"./{resolution}/ready.png", 20, 0.5)
+            # eject
+            ejection(f"./{resolution}/eject.png", 0.6)
+            # game end back to main manu
+            auto_click_button(0.9, f"./{resolution}/endBack.png", 2400, 0.25)
+            auto_click_button(0.9, f"./{resolution}/endYes.png", 20, 0.25)
+            auto_click_button(0.9, f"./{resolution}/endContinue.png", 30, 0.25)
+            auto_click_button(0.9, f"./{resolution}/endContinue2.png", 20, 0.25)
 
 
 if __name__ == "__main__":
