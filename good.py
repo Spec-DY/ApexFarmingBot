@@ -155,7 +155,7 @@ def main() -> None:
     # start phase
     if auto_click_button(0.6, f"./{resolution}/start.png", 1, 0.5):
         # solo play
-        auto_click_button(0.8, f"./{resolution}/fillTeam.png", 10, 0.25)
+        auto_click_button(0.8, f"./{resolution}/fillTeam.png", 4, 0.25)
     else:
         # solo play
         auto_click_button(0.8, f"./{resolution}/fillTeam.png", 1, 0.25)
@@ -179,8 +179,11 @@ def main() -> None:
                     # game end back to main manu
                     auto_click_button(0.9, f"./{resolution}/endBack.png", 2400, 0.25)
                     auto_click_button(0.9, f"./{resolution}/endYes.png", 20, 0.25)
+                    time.sleep(3)
+                    pyautogui.hotkey("space")
                     auto_click_button(0.9, f"./{resolution}/endContinue.png", 30, 0.25)
-                    auto_click_button(0.9, f"./{resolution}/endContinue2.png", 20, 0.25)
+                    pyautogui.hotkey("space")
+                    auto_click_button(0.9, f"./{resolution}/endContinue2.png", 10, 0.25)
                     
                     current_count += 1
                     print(current_count < times)
@@ -194,7 +197,10 @@ def main() -> None:
             # game end back to main manu
             auto_click_button(0.9, f"./{resolution}/endBack.png", 2400, 0.25)
             auto_click_button(0.9, f"./{resolution}/endYes.png", 20, 0.25)
+            time.sleep(3)
+            pyautogui.hotkey("space")
             auto_click_button(0.9, f"./{resolution}/endContinue.png", 30, 0.25)
+            pyautogui.hotkey("space")
             auto_click_button(0.9, f"./{resolution}/endContinue2.png", 20, 0.25)
 
 
