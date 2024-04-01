@@ -5,9 +5,11 @@ import time
 PROGRAM_TITLE = "Apex Legends"
 NO_TITLE_ERROR = "Window titled '{}' not found."
 START_STATUS = True
+RESOLUTION_1080 = 1080
+RESOLUTION_1440 = 1440
 
 
-def auto_click_button(conf_level: float, pic_name: str, max_retires: int) -> None:
+def auto_click_button(conf_level: float, pic_name: str, max_retires: int, move_speed: int) -> None:
     """
     It continuously click the provided pic_name with a conf_level.
     break after click
@@ -24,21 +26,35 @@ def auto_click_button(conf_level: float, pic_name: str, max_retires: int) -> Non
     count = 0
     while True:
         try:
-            x, y = pyautogui.locateCenterOnScreen(pic_name, confidence=conf_level)
+            x, y = pyautogui.locateCenterOnScreen(pic_name, confidence = conf_level)
             if x is not None and y is not None:
-                time.sleep(1)
-                pyautogui.moveTo(x, y, duration=1)
+                pyautogui.moveTo(x, y, duration = move_speed)
                 pyautogui.click()
                 print(f"Clicked on {pic_name} successfully.")
                 break
         except pyautogui.ImageNotFoundException:
             count = count + 1
             print(f"Button in {pic_name} could not be located. Retry {max_retires - count} times...")
+            time.sleep(1)
             if count >= max_retires :
                 break
 
-def auto_click_ready() -> None:
-    auto_click_button(0.9, "ready.png", 5)
+def get_resolution() -> int:
+    """
+    get resolution from prompt
+    either 1080(1k) or 1440(2k)
+
+    Returns: resolution(int): 1080 or 1440
+
+    """
+    try:
+        resolution = pyautogui.prompt(f"Enter Resolution: {RESOLUTION_1080}/{RESOLUTION_1440}", title = "Resolution")
+        resolution = int(resolution)
+        if resolution not in (RESOLUTION_1080, RESOLUTION_1440):
+            return None
+        return resolution
+    except (TypeError, ValueError):
+        return None
 
 def find_and_open_from_taskbar(window_title: str) -> None:
     """
@@ -62,6 +78,18 @@ def find_and_open_from_taskbar(window_title: str) -> None:
     except IndexError:  # Handle the case where no window with the given title is found.
         print(NO_TITLE_ERROR.format(window_title))
         return False
+    
+def ejection(pic_name: str, conf_level: float):
+    while True:
+        try:
+            x = pyautogui.locateOnScreen(pic_name, confidence = conf_level)
+            if x is not None:
+                time.sleep(12)
+                pyautogui.click()
+                print("ejected")
+                break
+        except pyautogui.ImageNotFoundException:
+            time.sleep(0.25)
 
 def main() -> None:
     """
@@ -74,15 +102,32 @@ def main() -> None:
     Returns:
     - None
     """
+    # resolution get
+    resolution = get_resolution()
+    if resolution is None:
+        return
+    
+    # open window
     status = find_and_open_from_taskbar(PROGRAM_TITLE)  # Open program from task bar
     if status == False:
         return
-    time.sleep(2)
-    auto_click_button(0.6, "start.png", 2)
+    time.sleep(1)
+
+    # start phase
+    if auto_click_button(0.6, f"./{resolution}/start.png", 1, 0.5):
+        auto_click_button(0.8, f"./{resolution}/fillTeam.png", 5, 0.5)
+    else:
+        auto_click_button(0.8, f"./{resolution}/fillTeam.png", 1, 0.5)
     while True:
-        auto_click_ready()
-        print("ALLDONE")
-        time.sleep(300)
+        # ready
+        auto_click_button(0.9, f"./{resolution}/ready.png", 20, 0.5)
+        # eject
+        ejection(f"./{resolution}/eject.png", 0.6)
+        # game end
+        auto_click_button(0.9, f"./{resolution}/endBack.png", 2400, 0.25)
+        auto_click_button(0.9, f"./{resolution}/endYes.png", 20, 0.25)
+        auto_click_button(0.9, f"./{resolution}/endContinue.png", 30, 0.25)
+        auto_click_button(0.9, f"./{resolution}/endContinue2.png", 20, 0.25)
         
 
 if __name__ == "__main__":
