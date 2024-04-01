@@ -205,7 +205,7 @@ def main() -> None:
             pyautogui.hotkey("space")
             auto_click_button(0.9, f"./{resolution}/endContinue.png", 30, 0.25)
             pyautogui.hotkey("space")
-            auto_click_button(0.9, f"./{resolution}/endContinue2.png", 20, 0.25)
+            auto_click_button(0.9, f"./{resolution}/endContinue2.png", 5, 0.25)
 
             # random rewards
             auto_click_button(0.9, f"./{resolution}/closeRewards.png", 1, 0.25)
