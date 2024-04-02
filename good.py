@@ -97,8 +97,8 @@ def ejection(pic_name: str, conf_level: float):
             # print(f"Look for Ejection Button lasting {seconds} seconds...")
             time.sleep(0.25)
 
-def choose_legend(legend_name: str, conf_level: float) -> int:
-    start_time = time.time()
+def choose_legend(conf_level: float, legend_name: str, max_tries: int) -> int:
+    count = 0
     while True:
         try:
             x, y = pyautogui.locateCenterOnScreen(legend_name, confidence = conf_level)
@@ -111,12 +111,11 @@ def choose_legend(legend_name: str, conf_level: float) -> int:
                 auto_click_button(0.7, f"./1080/mainMenu.png", 3, 0.25)
                 break
         except pyautogui.ImageNotFoundException:
-            # time record
-            current_time = time.time()
-            if current_time - start_time >= 1:
-                print("Clicking corresponding legend...")
-                start_time = current_time
-            
+
+            count += 1
+            if count >= max_tries:
+                print("choose legend fail, return")
+                return False
             time.sleep(0.25)
 
 
@@ -170,17 +169,17 @@ def main() -> None:
 
 
     
-
+    # temperally disable start phase
     # start phase
-    if auto_click_button(0.6, f"./{resolution}/start.png", 1, 0.5):
-        # solo play
-        auto_click_button(0.8, f"./{resolution}/fillTeam.png", 4, 0.25)
-    else:
-        # solo play
-        auto_click_button(0.8, f"./{resolution}/fillTeam.png", 1, 0.25)
+    # if auto_click_button(0.6, f"./{resolution}/start.png", 1, 0.5):
+    #     # solo play
+    #     auto_click_button(0.8, f"./{resolution}/fillTeam.png", 4, 0.25)
+    # else:
+    #     # solo play
+    #     auto_click_button(0.8, f"./{resolution}/fillTeam.png", 1, 0.25)
 
     while True:
-        auto_click_button(0.6, f"./{resolution}/personalInfoBack.png", 2, 0.25)
+        
         auto_click_button(0.8, f"./{resolution}/fillTeam.png", 1, 0.25)
         print(legend_names)
         if legend_names is not None:
@@ -190,7 +189,7 @@ def main() -> None:
                 while current_count < times:
                     # choose legend
                     auto_click_button(0.8, f"./{resolution}/legendTab.png", 20, 0.5)
-                    choose_legend(f"./{resolution}/legends/{legend}.png", 0.7)
+                    choose_legend(0.7, f"./{resolution}/legends/{legend}.png", 20)
                     print(f"{legend} in {times - current_count} times")
                     # ready
                     auto_click_button(0.9, f"./{resolution}/ready.png", 20, 0.5)
@@ -210,6 +209,12 @@ def main() -> None:
 
                     auto_click_button(0.6, f"./{resolution}/continue.png", 1, 0.25)
                     auto_click_button(0.6, f"./{resolution}/continue2.png", 1, 0.25)
+
+                    # personal info tab close
+                    auto_click_button(0.6, f"./{resolution}/personalInfoBack.png", 2, 0.25)
+
+                    # buy pass notice close
+                    auto_click_button(0.6, f"./{resolution}/buyPassNotice.png", 2, 0.25)
                     
                     current_count += 1
                     print(f"Current main while loop end but next still going: {current_count < times}")
@@ -233,6 +238,12 @@ def main() -> None:
 
             auto_click_button(0.6, f"./{resolution}/continue.png", 1, 0.25)
             auto_click_button(0.6, f"./{resolution}/continue2.png", 1, 0.25)
+
+            # personal info tab close
+            auto_click_button(0.6, f"./{resolution}/personalInfoBack.png", 2, 0.25)
+
+            # buy pass notice close
+            auto_click_button(0.6, f"./{resolution}/buyPassNotice.png", 2, 0.25)
 
 
 
