@@ -84,14 +84,21 @@ def ejection(pic_name: str, conf_level: float):
         try:
             x = pyautogui.locateOnScreen(pic_name, confidence = conf_level)
             if x is not None:
-                time.sleep(12)
+                # commented for test case
+                # uncomment this to jump to the middle of map
+                # time.sleep(12)
                 pyautogui.click()
                 print("ejected")
                 break
         except pyautogui.ImageNotFoundException:
+            # uncomment below for test case
+            current_time = time.localtime()
+            seconds = current_time.tm_sec
+            # print(f"Look for Ejection Button lasting {seconds} seconds...")
             time.sleep(0.25)
 
 def choose_legend(legend_name: str, conf_level: float) -> int:
+    start_time = time.time()
     while True:
         try:
             x, y = pyautogui.locateCenterOnScreen(legend_name, confidence = conf_level)
@@ -99,10 +106,17 @@ def choose_legend(legend_name: str, conf_level: float) -> int:
                 pyautogui.moveTo(x, y, duration= 0.25)
                 pyautogui.middleClick()
                 time.sleep(1)
-                pyautogui.hotkey("esc")
                 print("corresponding legend clicked")
+                # resolution defined as 1080 here
+                auto_click_button(0.7, f"./1080/mainMenu.png", 3, 0.25)
                 break
         except pyautogui.ImageNotFoundException:
+            # time record
+            current_time = time.time()
+            if current_time - start_time >= 1:
+                print("Clicking corresponding legend...")
+                start_time = current_time
+            
             time.sleep(0.25)
 
 
@@ -166,7 +180,7 @@ def main() -> None:
         auto_click_button(0.8, f"./{resolution}/fillTeam.png", 1, 0.25)
 
     while True:
-        auto_click_button(0.9, f"./{resolution}/personalInfoBack.png", 2, 0.25)
+        auto_click_button(0.6, f"./{resolution}/personalInfoBack.png", 2, 0.25)
         auto_click_button(0.8, f"./{resolution}/fillTeam.png", 1, 0.25)
         print(legend_names)
         if legend_names is not None:
@@ -189,11 +203,16 @@ def main() -> None:
                     auto_click_button(0.9, f"./{resolution}/endContinue2.png", 5, 0.25)
 
                     # random rewards
+                    
                     auto_click_button(0.9, f"./{resolution}/closeRewards.png", 1, 0.25)
                     auto_click_button(0.9, f"./{resolution}/closeRewards2.png", 1, 0.25)
                     
+
+                    auto_click_button(0.6, f"./{resolution}/continue.png", 1, 0.25)
+                    auto_click_button(0.6, f"./{resolution}/continue2.png", 1, 0.25)
+                    
                     current_count += 1
-                    print(current_count < times)
+                    print(f"Current main while loop end but next still going: {current_count < times}")
             legend_names = None
         else:
             # No Legends Chose Game Process
@@ -208,10 +227,12 @@ def main() -> None:
             auto_click_button(0.9, f"./{resolution}/endContinue2.png", 5, 0.25)
 
             # random rewards
-            auto_click_button(0.9, f"./{resolution}/continue.png", 1, 0.25)
-            auto_click_button(0.9, f"./{resolution}/continue2.png", 1, 0.25)
+
             auto_click_button(0.9, f"./{resolution}/closeRewards.png", 1, 0.25)
             auto_click_button(0.9, f"./{resolution}/closeRewards2.png", 1, 0.25)
+
+            auto_click_button(0.6, f"./{resolution}/continue.png", 1, 0.25)
+            auto_click_button(0.6, f"./{resolution}/continue2.png", 1, 0.25)
 
 
 
