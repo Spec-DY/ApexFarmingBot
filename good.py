@@ -92,8 +92,8 @@ def ejection(pic_name: str, conf_level: float):
                 break
         except pyautogui.ImageNotFoundException:
             # uncomment below for test case
-            current_time = time.localtime()
-            seconds = current_time.tm_sec
+            # current_time = time.localtime()
+            # seconds = current_time.tm_sec
             # print(f"Look for Ejection Button lasting {seconds} seconds...")
             time.sleep(0.25)
 
@@ -177,7 +177,6 @@ def main() -> None:
 
     user_input = pyautogui.prompt("输入英雄空格次数, 例如, 'baolei 3 waji 10',也可以不输入", title="Choose Legends")
     legend_names = parse_legends(user_input)
-
 
     # open window
     status = find_and_open_from_taskbar(PROGRAM_TITLE)  # Open program from task bar
