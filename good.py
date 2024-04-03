@@ -244,6 +244,7 @@ def main() -> None:
                         print(f"Current main while loop end but next still going: {current_count < times}")
                     except KeyboardInterrupt:
                         print(f"Clicked READY button {ready_clicked_times} times!")
+                        return
             legend_names = None
         else:
             try:
@@ -278,6 +279,7 @@ def main() -> None:
                 auto_click_button(0.6, f"./{resolution}/buyPassNotice.png", 2, 0.25)
             except KeyboardInterrupt:
                 print(f"Clicked READY button {ready_clicked_times} times!")
+                return
 
 
 
