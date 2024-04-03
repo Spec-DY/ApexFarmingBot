@@ -196,7 +196,7 @@ def main() -> None:
                     # eject
                     ejection(f"./{resolution}/eject.png", 0.6)
                     # game end back to main manu
-                    auto_click_button(0.9, f"./{resolution}/endBack.png", 2400, 0.25)
+                    auto_click_button(0.7, f"./{resolution}/endBack.png", 2400, 0.25)
                     auto_click_button(0.9, f"./{resolution}/endYes.png", 20, 0.25)
                     auto_click_button(0.9, f"./{resolution}/endContinue.png", 30, 0.25)
                     auto_click_button(0.9, f"./{resolution}/endContinue2.png", 5, 0.25)
