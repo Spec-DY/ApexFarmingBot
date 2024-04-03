@@ -178,6 +178,8 @@ def main() -> None:
     user_input = pyautogui.prompt("输入英雄空格次数, 例如, 'baolei 3 waji 10',也可以不输入", title="Choose Legends")
     legend_names = parse_legends(user_input)
 
+    # ready button tracker
+    ready_clicked_times = 0
     # open window
     status = find_and_open_from_taskbar(PROGRAM_TITLE)  # Open program from task bar
     if status == False:
@@ -204,66 +206,79 @@ def main() -> None:
             for legend, times in legend_names:
                 current_count = 0
                 while current_count < times:
-                    # choose legend
-                    auto_click_button(0.8, f"./{resolution}/legendTab.png", 20, 0.5)
-                    choose_legend(0.7, f"./{resolution}/legends/{legend}.png", 20)
-                    print(f"{legend} in {times - current_count} times")
-                    # ready
-                    infinite_click(0.9, f"./{resolution}/ready.png")
-                    # eject
-                    ejection(f"./{resolution}/eject.png", 0.6)
-                    # game end back to main manu
-                    auto_click_button(0.7, f"./{resolution}/endBack.png", 2400, 0.25)
-                    
-                    auto_click_button(0.6, f"./{resolution}/endBack.png", 1, 0.25)
-                    auto_click_button(0.9, f"./{resolution}/endYes.png", 20, 0.25)
-                    auto_click_button(0.9, f"./{resolution}/endContinue.png", 60, 0.25)  # new: consider 2nd place or 1st
-                    auto_click_button(0.9, f"./{resolution}/endContinue2.png", 5, 0.25)
+                    try:
+                        # choose legend
+                        auto_click_button(0.8, f"./{resolution}/legendTab.png", 20, 0.5)
+                        choose_legend(0.7, f"./{resolution}/legends/{legend}.png", 20)
+                        print(f"{legend} in {times - current_count} times")
+                        # ready
+                        status = infinite_click(0.9, f"./{resolution}/ready.png")
+                        if status == True:
+                            ready_clicked_times += 1
+                        # eject
+                        ejection(f"./{resolution}/eject.png", 0.6)
+                        # game end back to main manu
+                        auto_click_button(0.7, f"./{resolution}/endBack.png", 2400, 0.25)
+                        
+                        auto_click_button(0.6, f"./{resolution}/endBack.png", 1, 0.25)
+                        auto_click_button(0.9, f"./{resolution}/endYes.png", 20, 0.25)
+                        auto_click_button(0.9, f"./{resolution}/endContinue.png", 60, 0.25)  # new: consider 2nd place or 1st
+                        auto_click_button(0.9, f"./{resolution}/endContinue2.png", 5, 0.25)
 
-                    # random rewards
-                    
-                    auto_click_button(0.9, f"./{resolution}/closeRewards.png", 1, 0.25)
-                    auto_click_button(0.9, f"./{resolution}/closeRewards2.png", 1, 0.25)
-                    
+                        # random rewards
+                        
+                        auto_click_button(0.9, f"./{resolution}/closeRewards.png", 1, 0.25)
+                        auto_click_button(0.9, f"./{resolution}/closeRewards2.png", 1, 0.25)
+                        
 
-                    auto_click_button(0.6, f"./{resolution}/continue.png", 1, 0.25)
-                    auto_click_button(0.6, f"./{resolution}/continue2.png", 1, 0.25)
+                        auto_click_button(0.6, f"./{resolution}/continue.png", 1, 0.25)
+                        auto_click_button(0.6, f"./{resolution}/continue2.png", 1, 0.25)
 
-                    # personal info tab close
-                    auto_click_button(0.6, f"./{resolution}/personalInfoBack.png", 2, 0.25)
+                        # personal info tab close
+                        auto_click_button(0.6, f"./{resolution}/personalInfoBack.png", 2, 0.25)
 
-                    # buy pass notice close
-                    auto_click_button(0.6, f"./{resolution}/buyPassNotice.png", 2, 0.25)
-                    
-                    current_count += 1
-                    print(f"Current main while loop end but next still going: {current_count < times}")
+                        # buy pass notice close
+                        auto_click_button(0.6, f"./{resolution}/buyPassNotice.png", 2, 0.25)
+                        
+                        current_count += 1
+                        print(f"Current main while loop end but next still going: {current_count < times}")
+                    except KeyboardInterrupt:
+                        print(f"Clicked READY button {ready_clicked_times} times!")
             legend_names = None
         else:
-            # No Legends Chose Game Process
-            # ready
-            auto_click_button(0.9, f"./{resolution}/ready.png", 20, 0.5)
-            # eject
-            ejection(f"./{resolution}/eject.png", 0.6)
-            # game end back to main manu
-            auto_click_button(0.7, f"./{resolution}/endBack.png", 2400, 0.25)
-            auto_click_button(0.6, f"./{resolution}/endBack.png", 1, 0.25)
-            auto_click_button(0.9, f"./{resolution}/endYes.png", 20, 0.25)
-            auto_click_button(0.9, f"./{resolution}/endContinue.png", 30, 0.25)
-            auto_click_button(0.9, f"./{resolution}/endContinue2.png", 5, 0.25)
+            try:
+                # No Legends Chose Game Process
+                # ready
+                status = infinite_click(0.9, f"./{resolution}/ready.png")
+                if status == True:
+                    ready_clicked_times += 1
+                # eject
+                ejection(f"./{resolution}/eject.png", 0.6)
+                # game end back to main manu
+                auto_click_button(0.7, f"./{resolution}/endBack.png", 2400, 0.25)
+                
+                auto_click_button(0.6, f"./{resolution}/endBack.png", 1, 0.25)
+                auto_click_button(0.9, f"./{resolution}/endYes.png", 20, 0.25)
+                auto_click_button(0.9, f"./{resolution}/endContinue.png", 60, 0.25)  # new: consider 2nd place or 1st
+                auto_click_button(0.9, f"./{resolution}/endContinue2.png", 5, 0.25)
 
-            # random rewards
+                # random rewards
+                
+                auto_click_button(0.9, f"./{resolution}/closeRewards.png", 1, 0.25)
+                auto_click_button(0.9, f"./{resolution}/closeRewards2.png", 1, 0.25)
+                
 
-            auto_click_button(0.9, f"./{resolution}/closeRewards.png", 1, 0.25)
-            auto_click_button(0.9, f"./{resolution}/closeRewards2.png", 1, 0.25)
+                auto_click_button(0.6, f"./{resolution}/continue.png", 1, 0.25)
+                auto_click_button(0.6, f"./{resolution}/continue2.png", 1, 0.25)
 
-            auto_click_button(0.6, f"./{resolution}/continue.png", 1, 0.25)
-            auto_click_button(0.6, f"./{resolution}/continue2.png", 1, 0.25)
+                # personal info tab close
+                auto_click_button(0.6, f"./{resolution}/personalInfoBack.png", 2, 0.25)
 
-            # personal info tab close
-            auto_click_button(0.6, f"./{resolution}/personalInfoBack.png", 2, 0.25)
+                # buy pass notice close
+                auto_click_button(0.6, f"./{resolution}/buyPassNotice.png", 2, 0.25)
+            except KeyboardInterrupt:
+                print(f"Clicked READY button {ready_clicked_times} times!")
 
-            # buy pass notice close
-            auto_click_button(0.6, f"./{resolution}/buyPassNotice.png", 2, 0.25)
 
 
 
