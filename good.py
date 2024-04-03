@@ -200,7 +200,7 @@ def main() -> None:
                     
                     auto_click_button(0.6, f"./{resolution}/endBack.png", 1, 0.25)
                     auto_click_button(0.9, f"./{resolution}/endYes.png", 20, 0.25)
-                    auto_click_button(0.9, f"./{resolution}/endContinue.png", 30, 0.25)
+                    auto_click_button(0.9, f"./{resolution}/endContinue.png", 60, 0.25)  # new: consider 2nd place or 1st
                     auto_click_button(0.9, f"./{resolution}/endContinue2.png", 5, 0.25)
 
                     # random rewards
