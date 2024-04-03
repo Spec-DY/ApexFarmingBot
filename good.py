@@ -138,6 +138,24 @@ def parse_legends(user_input: str) -> list:
     return legends_list
 
 
+def infinite_click(conf_level: float, pic_name: str) -> None:
+    """
+    It continuously click the provided pic_name.
+    """
+    count = 0
+    while True:
+        try:
+            x, y = pyautogui.locateCenterOnScreen(pic_name, confidence = conf_level)
+            if x is not None and y is not None:
+                pyautogui.moveTo(x, y, duration = 0.25)
+                pyautogui.click()
+                print(f"Clicked on {pic_name} button.")
+                return True
+        except pyautogui.ImageNotFoundException:
+            time.sleep(1)
+            count += 1
+            print(f"Looked for {pic_name} button for {count} times...")
+
 
 def main() -> None:
     """
@@ -192,7 +210,7 @@ def main() -> None:
                     choose_legend(0.7, f"./{resolution}/legends/{legend}.png", 20)
                     print(f"{legend} in {times - current_count} times")
                     # ready
-                    auto_click_button(0.9, f"./{resolution}/ready.png", 20, 0.5)
+                    infinite_click(0.9, f"./{resolution}/ready.png")
                     # eject
                     ejection(f"./{resolution}/eject.png", 0.6)
                     # game end back to main manu
