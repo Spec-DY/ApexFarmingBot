@@ -86,7 +86,7 @@ def ejection(pic_name: str, conf_level: float):
             if x is not None:
                 # commented for test case
                 # uncomment this to jump to the middle of map
-                # time.sleep(12)
+                time.sleep(12)
                 pyautogui.click()
                 print("ejected")
                 break
