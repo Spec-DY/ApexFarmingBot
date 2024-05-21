@@ -169,13 +169,15 @@ def main() -> None:
     - None
     """
     # resolution get
-    resolution = get_resolution()
-    if resolution is None:
-        return
+    resolution = 1080
+
+    # disable resolution selection
+    # resolution = get_resolution()
+    # if resolution is None:
+    #     return
     
     # get user input
-
-    user_input = pyautogui.prompt("输入英雄空格次数, 例如, 'baolei 3 waji 10',也可以不输入", title="Choose Legends")
+    user_input = pyautogui.prompt("输入英雄空格次数, 例如:'baolei 3 waji 10',也可以不输入", title="Choose Legends")
     legend_names = parse_legends(user_input)
 
     # ready button tracker
