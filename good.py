@@ -108,6 +108,8 @@ def choose_legend(conf_level: float, legend_name: str, max_tries: int) -> int:
                 time.sleep(1)
                 print("corresponding legend clicked")
                 # resolution defined as 1080 here
+
+                # back to main menu
                 auto_click_button(0.7, f"./1080/mainMenu.png", 3, 0.25)
                 break
         except pyautogui.ImageNotFoundException:
