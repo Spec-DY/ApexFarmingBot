@@ -159,6 +159,34 @@ def infinite_click(conf_level: float, pic_name: str) -> None:
             print(f"Looked for {pic_name} button for {count} times...")
 
 
+def move_and_hold_on_image(image_path, hold_duration=2):
+    """
+    Moves the mouse to the center of an image, clicks, and holds the mouse button down for a specified duration.
+
+    Parameters:
+    - image_path (str): Path to the image file.
+    - hold_duration (int): Duration in seconds to hold the mouse button down.
+
+    Returns:
+    - None
+    """
+    try:
+        # Locate the image on the screen
+        x, y = pyautogui.locateCenterOnScreen(image_path, confidence=0.8)
+        if x is not None and y is not None:
+            pyautogui.moveTo(x, y, duration=0.5)  # Move the cursor to the image
+            pyautogui.mouseDown()                # Press and hold the left mouse button
+            time.sleep(hold_duration)            # Hold the mouse button down for the duration specified
+            pyautogui.mouseUp()                  # Release the mouse button
+        else:
+            print("Image not found on the screen.")
+    except pyautogui.ImageNotFoundException:
+        print("The image file does not exist or cannot be found.")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
+
+
 def main() -> None:
     """
     Main function that orchestrates the finding and opening of a window from the taskbar,
@@ -223,9 +251,12 @@ def main() -> None:
                         ejection(f"./{resolution}/eject.png", 0.6)
                         # game end back to main manu
                         auto_click_button(0.7, f"./{resolution}/endBack.png", 2400, 0.25)
-                        
                         auto_click_button(0.6, f"./{resolution}/endBack.png", 1, 0.25)
-                        auto_click_button(0.9, f"./{resolution}/endYes.png", 20, 0.25)
+
+                        # for new season
+                        move_and_hold_on_image(f"./{resolution}/newbackhold1.png", hold_duration=2)
+                        
+                        
                         auto_click_button(0.9, f"./{resolution}/endContinue.png", 60, 0.25)  # new: consider 2nd place or 1st
                         auto_click_button(0.9, f"./{resolution}/endContinue2.png", 5, 0.25)
 
@@ -263,7 +294,7 @@ def main() -> None:
                 auto_click_button(0.7, f"./{resolution}/endBack.png", 2400, 0.25)
                 
                 auto_click_button(0.6, f"./{resolution}/endBack.png", 1, 0.25)
-                auto_click_button(0.9, f"./{resolution}/endYes.png", 20, 0.25)
+                move_and_hold_on_image(f"./{resolution}/newbackhold1.png", hold_duration=2)
                 auto_click_button(0.9, f"./{resolution}/endContinue.png", 60, 0.25)  # new: consider 2nd place or 1st
                 auto_click_button(0.9, f"./{resolution}/endContinue2.png", 5, 0.25)
 
