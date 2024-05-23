@@ -231,7 +231,7 @@ def main() -> None:
 
     while True:
         
-        auto_click_button(0.8, f"./{resolution}/fillTeam.png", 1, 0.25)
+        auto_click_button(0.8, f"./{resolution}/fillTeam.png", 3, 0.25)
         print(legend_names)
         if legend_names is not None:
             # legend
