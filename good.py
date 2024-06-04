@@ -72,9 +72,9 @@ def find_and_open_from_taskbar(window_title: str) -> None:
         if window.isMinimized:  # Check if the window is currently minimized.
             window.restore()  # Restore the window if it is minimized.
         else:  # If the window is not minimized,
-            window.minimize()  # First minimize it,
-            time.sleep(1)  # wait for a second,
-            window.restore()  # and then restore it to ensure it's visible on screen.
+            window.minimize()
+            time.sleep(1)
+            window.restore()  # restore it to ensure it's visible on screen.
     except IndexError:  # Handle the case where no window with the given title is found.
         print(NO_TITLE_ERROR.format(window_title))
         return False
@@ -162,6 +162,7 @@ def infinite_click(conf_level: float, pic_name: str) -> None:
 def move_and_hold_on_image(image_path, hold_duration=2):
     """
     Moves the mouse to the center of an image, clicks, and holds the mouse button down for a specified duration.
+    This function is aimed for season 22's ending page
 
     Parameters:
     - image_path (str): Path to the image file.
