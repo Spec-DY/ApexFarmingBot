@@ -1,5 +1,5 @@
 # Apex自动挂机
-[For English README](/README_EN.md)
+[For English README](/README_EN.md)<br>
 这是一个基于OpenCV的简易Python脚本，支持一次输入多个Apex英雄并规定每个英雄的跳伞次数，然后开始自动挂机。
 <br>适用于最新的21赛季。
 ## 使用说明
