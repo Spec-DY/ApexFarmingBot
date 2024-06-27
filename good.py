@@ -84,8 +84,6 @@ def ejection(pic_name: str, conf_level: float):
         try:
             x = pyautogui.locateOnScreen(pic_name, confidence = conf_level)
             if x is not None:
-                # commented for test case
-                # uncomment this to jump to the middle of map
                 time.sleep(12)
                 pyautogui.click()
                 print("ejected")
@@ -108,7 +106,6 @@ def choose_legend(conf_level: float, legend_name: str, max_tries: int) -> int:
                 time.sleep(1)
                 print("corresponding legend clicked")
                 # resolution defined as 1080 here
-
                 # back to main menu
                 auto_click_button(0.7, f"./1080/mainMenu.png", 3, 0.25)
                 break
@@ -142,7 +139,7 @@ def parse_legends(user_input: str) -> list:
 
 def infinite_click(conf_level: float, pic_name: str) -> None:
     """
-    It continuously click the provided pic_name.
+    It continuously click the provided pic_name without counter.
     """
     count = 0
     while True:
@@ -175,10 +172,10 @@ def move_and_hold_on_image(image_path, hold_duration=2):
         # Locate the image on the screen
         x, y = pyautogui.locateCenterOnScreen(image_path, confidence=0.8)
         if x is not None and y is not None:
-            pyautogui.moveTo(x, y, duration=0.5)  # Move the cursor to the image
-            pyautogui.mouseDown()                # Press and hold the left mouse button
-            time.sleep(hold_duration)            # Hold the mouse button down for the duration specified
-            pyautogui.mouseUp()                  # Release the mouse button
+            pyautogui.moveTo(x, y, duration=0.5)
+            pyautogui.mouseDown()
+            time.sleep(hold_duration)
+            pyautogui.mouseUp()
         else:
             print("Image not found on the screen.")
     except pyautogui.ImageNotFoundException:
@@ -219,8 +216,6 @@ def main() -> None:
         return
     time.sleep(1)
 
-
-    
     # temperally disable start phase
     # start phase
     # if auto_click_button(0.6, f"./{resolution}/start.png", 1, 0.5):
