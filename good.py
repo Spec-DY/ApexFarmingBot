@@ -69,12 +69,12 @@ def find_and_open_from_taskbar(window_title: str) -> None:
     try:
         # Attempt to get the first window matching the provided title.
         window = gw.getWindowsWithTitle(window_title)[0]
-        if window.isMinimized:  # Check if the window is currently minimized.
-            window.restore()  # Restore the window if it is minimized.
-        else:  # If the window is not minimized,
+        if window.isMinimized:
+            window.restore()
+        else:  # If window is not minimized
             window.minimize()
             time.sleep(1)
-            window.restore()  # restore it to ensure it's visible on screen.
+            window.restore()
     except IndexError:  # Handle the case where no window with the given title is found.
         print(NO_TITLE_ERROR.format(window_title))
         return False
