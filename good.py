@@ -159,7 +159,7 @@ def infinite_click(conf_level: float, pic_name: str) -> None:
 def move_and_hold_on_image(image_path, hold_duration=2):
     """
     Moves the mouse to the center of an image, clicks, and holds the mouse button down for a specified duration.
-    This function is aimed for season 22's ending page
+    This function is aimed for season 21's ending page
 
     Parameters:
     - image_path (str): Path to the image file.
